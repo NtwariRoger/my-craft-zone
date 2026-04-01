@@ -24,7 +24,7 @@ const initialProjects: Project[] = [
 
 const AdminProjects = () => {
   const [projects, setProjects] = useState<Project[]>(initialProjects);
-  const [form, setForm] = useState({ title: "", description: "", technologies: "", category: "personal" as const });
+  const [form, setForm] = useState<{ title: string; description: string; technologies: string; category: "personal" | "education" }>({ title: "", description: "", technologies: "", category: "personal" });
   const { toast } = useToast();
 
   const addProject = () => {
