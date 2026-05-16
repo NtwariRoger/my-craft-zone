@@ -53,18 +53,18 @@ const Contact = () => {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="Your name" required className="mt-1" />
+                    <Input id="name" name="name" placeholder="Your name" required className="mt-1" />
                   </div>
                   <div>
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="you@example.com" required className="mt-1" />
+                    <Input id="email" name="email" type="email" placeholder="you@example.com" required className="mt-1" />
                   </div>
                   <div>
                     <Label htmlFor="message">Message</Label>
-                    <Textarea id="message" placeholder="Your message..." rows={5} required className="mt-1" />
+                    <Textarea id="message" name="message" placeholder="Your message..." rows={5} required className="mt-1" />
                   </div>
-                  <Button type="submit" className="w-full gap-2">
-                    <Send className="h-4 w-4" /> Send Message
+                  <Button type="submit" className="w-full gap-2" disabled={busy}>
+                    <Send className="h-4 w-4" /> {busy ? "Sending…" : "Send Message"}
                   </Button>
                 </form>
               )}
