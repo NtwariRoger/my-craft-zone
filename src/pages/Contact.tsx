@@ -8,13 +8,27 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Mail, Phone, MapPin, Github, Linkedin, Instagram, Send, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const [sent, setSent] = useState(false);
+  const [busy, setBusy] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    setBusy(true);
+    const { error } = await supabase.from("messages").insert({
+      name: String(fd.get("name") ?? "").trim(),
+      email: String(fd.get("email") ?? "").trim(),
+      message: String(fd.get("message") ?? "").trim(),
+    });
+    setBusy(false);
+    if (error) {
+      toast({ title: "Failed to send", description: error.message, variant: "destructive" });
+      return;
+    }
     setSent(true);
     toast({ title: "Message sent!", description: "Thank you for reaching out. I'll get back to you soon." });
   };
@@ -39,18 +53,18 @@ const Contact = () => {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="Your name" required className="mt-1" />
+                    <Input id="name" name="name" placeholder="Your name" required className="mt-1" />
                   </div>
                   <div>
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="you@example.com" required className="mt-1" />
+                    <Input id="email" name="email" type="email" placeholder="you@example.com" required className="mt-1" />
                   </div>
                   <div>
                     <Label htmlFor="message">Message</Label>
-                    <Textarea id="message" placeholder="Your message..." rows={5} required className="mt-1" />
+                    <Textarea id="message" name="message" placeholder="Your message..." rows={5} required className="mt-1" />
                   </div>
-                  <Button type="submit" className="w-full gap-2">
-                    <Send className="h-4 w-4" /> Send Message
+                  <Button type="submit" className="w-full gap-2" disabled={busy}>
+                    <Send className="h-4 w-4" /> {busy ? "Sending…" : "Send Message"}
                   </Button>
                 </form>
               )}

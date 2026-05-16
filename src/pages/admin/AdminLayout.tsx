@@ -2,7 +2,7 @@ import { Link, useLocation, Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
-  LayoutDashboard, User, Wrench, FolderOpen, Image, MessageSquare, LogOut
+  LayoutDashboard, User, Wrench, FolderOpen, Image, MessageSquare, LogOut, ShieldAlert
 } from "lucide-react";
 
 const sidebarLinks = [
@@ -15,14 +15,30 @@ const sidebarLinks = [
 ];
 
 const AdminLayout = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, isAdmin, loading, logout } = useAuth();
   const location = useLocation();
 
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading…</div>;
+  }
   if (!isAuthenticated) return <Navigate to="/admin/login" replace />;
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="glass rounded-xl p-8 max-w-md text-center">
+          <ShieldAlert className="h-10 w-10 text-destructive mx-auto mb-3" />
+          <h2 className="text-lg font-bold mb-2">Not an admin</h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            Your account does not have admin access.
+          </p>
+          <Button variant="outline" onClick={logout}>Sign out</Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex bg-background">
-      {/* Sidebar */}
       <aside className="w-64 border-r border-border bg-card hidden md:flex flex-col">
         <div className="p-4 border-b border-border">
           <Link to="/" className="text-lg font-bold text-gradient">NRH Admin</Link>
@@ -50,7 +66,6 @@ const AdminLayout = () => {
         </div>
       </aside>
 
-      {/* Mobile header */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-card border-b border-border flex items-center justify-between px-4">
         <Link to="/" className="text-lg font-bold text-gradient">NRH</Link>
         <Button variant="ghost" size="sm" onClick={logout}>
@@ -58,7 +73,6 @@ const AdminLayout = () => {
         </Button>
       </div>
 
-      {/* Content */}
       <main className="flex-1 p-6 md:p-8 overflow-auto md:pt-8 pt-20">
         <Outlet />
       </main>
