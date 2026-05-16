@@ -1,36 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatedCard } from "@/components/AnimatedCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Trash2, Mail, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { formatDistanceToNow } from "date-fns";
 
 interface Message {
   id: string;
   name: string;
   email: string;
   message: string;
-  date: string;
+  subject: string | null;
+  created_at: string;
   read: boolean;
 }
 
-const initialMessages: Message[] = [
-  { id: "1", name: "John Doe", email: "john@example.com", message: "Great portfolio! Let's connect and discuss potential collaboration on a network monitoring project.", date: "2 hours ago", read: false },
-  { id: "2", name: "Jane Smith", email: "jane@example.com", message: "Interested in your data analysis work. Would love to chat about opportunities.", date: "1 day ago", read: false },
-  { id: "3", name: "Mike Johnson", email: "mike@example.com", message: "Amazing networking projects! Your campus network design is impressive.", date: "3 days ago", read: true },
-];
-
 const AdminMessages = () => {
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const [messages, setMessages] = useState<Message[]>([]);
   const { toast } = useToast();
 
-  const markRead = (id: string) => {
-    setMessages(messages.map((m) => (m.id === id ? { ...m, read: true } : m)));
+  const load = async () => {
+    const { data, error } = await supabase.from("messages").select("*").order("created_at", { ascending: false });
+    if (error) toast({ title: "Failed to load", description: error.message, variant: "destructive" });
+    else setMessages((data ?? []) as Message[]);
   };
 
-  const removeMessage = (id: string) => {
-    setMessages(messages.filter((m) => m.id !== id));
+  useEffect(() => { load(); }, []);
+
+  const markRead = async (id: string) => {
+    await supabase.from("messages").update({ read: true }).eq("id", id);
+    load();
+  };
+
+  const removeMessage = async (id: string) => {
+    await supabase.from("messages").delete().eq("id", id);
     toast({ title: "Message deleted" });
+    load();
   };
 
   const unread = messages.filter((m) => !m.read).length;
@@ -43,6 +50,9 @@ const AdminMessages = () => {
       </div>
 
       <div className="space-y-3">
+        {messages.length === 0 && (
+          <p className="text-sm text-muted-foreground">No messages yet.</p>
+        )}
         {messages.map((msg, i) => (
           <AnimatedCard key={msg.id} delay={i * 0.05} className={!msg.read ? "border-primary/30" : ""}>
             <div className="flex items-start gap-4">
@@ -55,8 +65,11 @@ const AdminMessages = () => {
                   {!msg.read && <Badge variant="default" className="text-xs">New</Badge>}
                 </div>
                 <p className="text-xs text-muted-foreground mb-1">{msg.email}</p>
+                {msg.subject && <p className="text-xs font-medium mb-1">{msg.subject}</p>}
                 <p className="text-sm text-muted-foreground">{msg.message}</p>
-                <p className="text-xs text-muted-foreground mt-2">{msg.date}</p>
+                <p className="text-xs text-muted-foreground mt-2">
+                  {formatDistanceToNow(new Date(msg.created_at), { addSuffix: true })}
+                </p>
               </div>
               <div className="flex gap-1 shrink-0">
                 {!msg.read && (
