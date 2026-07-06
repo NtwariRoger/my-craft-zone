@@ -2,7 +2,7 @@ import { Link, useLocation, Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
-  LayoutDashboard, User, Wrench, FolderOpen, Image, MessageSquare, LogOut, ShieldAlert
+  LayoutDashboard, User, Wrench, FolderOpen, Image, MessageSquare, LogOut, ShieldAlert, FileText
 } from "lucide-react";
 
 const sidebarLinks = [
@@ -11,6 +11,7 @@ const sidebarLinks = [
   { to: "/admin/skills", icon: Wrench, label: "Skills" },
   { to: "/admin/projects", icon: FolderOpen, label: "Projects" },
   { to: "/admin/gallery", icon: Image, label: "Gallery" },
+  { to: "/admin/blog", icon: FileText, label: "Blog" },
   { to: "/admin/messages", icon: MessageSquare, label: "Messages" },
 ];
 

@@ -11,6 +11,8 @@ import Skills from "./pages/Skills";
 import Projects from "./pages/Projects";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./pages/admin/AdminLayout";
@@ -20,6 +22,7 @@ import AdminSkills from "./pages/admin/AdminSkills";
 import AdminProjects from "./pages/admin/AdminProjects";
 import AdminGallery from "./pages/admin/AdminGallery";
 import AdminMessages from "./pages/admin/AdminMessages";
+import AdminBlog from "./pages/admin/AdminBlog";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +41,8 @@ const App = () => (
             <Route path="/skills" element={<Skills />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/gallery" element={<Gallery />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/contact" element={<Contact />} />
 
             {/* Admin */}
@@ -48,6 +53,7 @@ const App = () => (
               <Route path="skills" element={<AdminSkills />} />
               <Route path="projects" element={<AdminProjects />} />
               <Route path="gallery" element={<AdminGallery />} />
+              <Route path="blog" element={<AdminBlog />} />
               <Route path="messages" element={<AdminMessages />} />
             </Route>
 
