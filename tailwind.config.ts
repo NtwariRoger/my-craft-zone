@@ -62,3 +62,6 @@ export default {
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;
+// eslint-disable-next-line
+const _noop = 0;
+} satisfies Config;
