@@ -22,6 +22,7 @@ import AdminSkills from "./pages/admin/AdminSkills";
 import AdminProjects from "./pages/admin/AdminProjects";
 import AdminGallery from "./pages/admin/AdminGallery";
 import AdminMessages from "./pages/admin/AdminMessages";
+import AdminBlog from "./pages/admin/AdminBlog";
 
 const queryClient = new QueryClient();
 
