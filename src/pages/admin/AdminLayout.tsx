@@ -2,14 +2,19 @@ import { Link, useLocation, Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
-  LayoutDashboard, User, Wrench, FolderOpen, Image, MessageSquare, LogOut, ShieldAlert, FileText
+  LayoutDashboard, User, Wrench, FolderOpen, Image, MessageSquare, LogOut, ShieldAlert,
+  FileText, Star, Award, Briefcase, BarChart3,
 } from "lucide-react";
 
 const sidebarLinks = [
   { to: "/admin", icon: LayoutDashboard, label: "Dashboard" },
+  { to: "/admin/analytics", icon: BarChart3, label: "Analytics" },
   { to: "/admin/profile", icon: User, label: "Profile" },
   { to: "/admin/skills", icon: Wrench, label: "Skills" },
+  { to: "/admin/services", icon: Briefcase, label: "Services" },
   { to: "/admin/projects", icon: FolderOpen, label: "Projects" },
+  { to: "/admin/certifications", icon: Award, label: "Certifications" },
+  { to: "/admin/testimonials", icon: Star, label: "Testimonials" },
   { to: "/admin/gallery", icon: Image, label: "Gallery" },
   { to: "/admin/blog", icon: FileText, label: "Blog" },
   { to: "/admin/messages", icon: MessageSquare, label: "Messages" },

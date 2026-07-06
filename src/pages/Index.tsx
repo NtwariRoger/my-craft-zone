@@ -3,6 +3,8 @@ import { ArrowRight, Code, BarChart3 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/Layout";
+import { Testimonials } from "@/components/Testimonials";
+import { CVDownload } from "@/components/CVDownload";
 
 const Index = () => {
   return (
@@ -60,10 +62,14 @@ const Index = () => {
               <Button asChild variant="outline" size="lg">
                 <Link to="/contact">Contact Me</Link>
               </Button>
+              <CVDownload variant="ghost" />
             </motion.div>
           </div>
         </div>
       </section>
+
+      {/* Testimonials */}
+      <Testimonials />
 
       {/* Quick highlights */}
       <section className="py-20 border-t border-border">
