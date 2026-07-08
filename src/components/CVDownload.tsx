@@ -3,17 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
-const CV_PATH = "cv.pdf";
-
 export function CVDownload({ variant = "default" }: { variant?: "default" | "outline" | "ghost" }) {
   const [url, setUrl] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase.storage.from("cv").createSignedUrl(CV_PATH, 3600, {
-        download: "NTWARI_Roger_Haverson_CV.pdf",
-      });
-      if (data?.signedUrl) setUrl(data.signedUrl);
+      const { data, error } = await supabase.functions.invoke("get-cv-url");
+      if (!error && data?.url) setUrl(data.url);
     })();
   }, []);
 
