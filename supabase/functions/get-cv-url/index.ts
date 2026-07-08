@@ -18,14 +18,19 @@ Deno.serve(async (req) => {
       .from("cv")
       .createSignedUrl("cv.pdf", 3600, { download: "NTWARI_Roger_Haverson_CV.pdf" });
 
-    if (error) throw error;
+    if (error || !data?.signedUrl) {
+      // No CV uploaded yet — respond 200 with url:null so the client hides the button.
+      return new Response(JSON.stringify({ url: null }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     return new Response(JSON.stringify({ url: data.signedUrl }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
-    return new Response(JSON.stringify({ error: (e as Error).message }), {
-      status: 500,
+    return new Response(JSON.stringify({ url: null, error: (e as Error).message }), {
+      status: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
