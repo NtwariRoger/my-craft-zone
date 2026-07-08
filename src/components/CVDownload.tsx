@@ -8,8 +8,12 @@ export function CVDownload({ variant = "default" }: { variant?: "default" | "out
 
   useEffect(() => {
     (async () => {
-      const { data, error } = await supabase.functions.invoke("get-cv-url");
-      if (!error && data?.url) setUrl(data.url);
+      try {
+        const { data } = await supabase.functions.invoke("get-cv-url");
+        if (data?.url) setUrl(data.url);
+      } catch {
+        // no CV uploaded yet — hide button silently
+      }
     })();
   }, []);
 
