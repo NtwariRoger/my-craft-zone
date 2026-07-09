@@ -1,11 +1,17 @@
 import { Layout } from "@/components/Layout";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedCard } from "@/components/AnimatedCard";
+import { SEO } from "@/components/SEO";
 import { Target, Heart, Lightbulb } from "lucide-react";
 
 const About = () => {
   return (
     <Layout>
+      <SEO
+        title="About NTWARI Roger Haverson — Networking Engineer & Data Analyst"
+        description="Learn about NTWARI Roger Haverson, a Rwandan networking engineer and data analyst passionate about network architecture, cybersecurity, and data-driven decisions."
+        path="/about"
+      />
       <section className="py-20">
         <div className="container mx-auto px-4 max-w-4xl">
           <SectionHeading title="About Me" subtitle="Learn more about my journey and passions" />
@@ -24,7 +30,7 @@ const About = () => {
             <AnimatedCard delay={0.1}>
               <div className="flex items-center gap-3 mb-3">
                 <Target className="h-5 w-5 text-primary" />
-                <h4 className="font-semibold">Career Goals</h4>
+                <h3 className="font-semibold">Career Goals</h3>
               </div>
               <p className="text-sm text-muted-foreground">
                 To become a leading network architect and data strategist, contributing to digital
@@ -35,7 +41,7 @@ const About = () => {
             <AnimatedCard delay={0.2}>
               <div className="flex items-center gap-3 mb-3">
                 <Heart className="h-5 w-5 text-accent" />
-                <h4 className="font-semibold">Interests</h4>
+                <h3 className="font-semibold">Interests</h3>
               </div>
               <ul className="text-sm text-muted-foreground space-y-1">
                 <li>• Cybersecurity & Cloud Computing</li>
@@ -48,7 +54,7 @@ const About = () => {
             <AnimatedCard delay={0.3}>
               <div className="flex items-center gap-3 mb-3">
                 <Lightbulb className="h-5 w-5 text-primary" />
-                <h4 className="font-semibold">Hobbies</h4>
+                <h3 className="font-semibold">Hobbies</h3>
               </div>
               <ul className="text-sm text-muted-foreground space-y-1">
                 <li>• Playing football</li>

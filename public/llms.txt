@@ -1,0 +1,16 @@
+# NTWARI Roger Haverson Portfolio
+
+> Portfolio of NTWARI Roger Haverson — networking engineer and data analyst based in Rwanda. Showcases skills, projects, services, certifications, and a technical blog.
+
+## Pages
+
+- [Home](/): Introduction and highlights.
+- [Profile](/profile): Education and professional experience.
+- [About](/about): Background, career goals, and interests.
+- [Skills](/skills): Technical skills across networking and data analysis.
+- [Services](/services): Consulting and engineering services offered.
+- [Projects](/projects): Selected networking and data projects.
+- [Certifications](/certifications): Professional certifications.
+- [Gallery](/gallery): Photo gallery.
+- [Blog](/blog): Articles on networking, data, and career.
+- [Contact](/contact): Contact form and details.
