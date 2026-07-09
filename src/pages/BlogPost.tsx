@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 import { Layout } from "@/components/Layout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { SEO } from "@/components/SEO";
 import { supabase } from "@/integrations/supabase/client";
 import { Calendar, ArrowLeft } from "lucide-react";
 
@@ -40,10 +41,28 @@ const BlogPost = () => {
 
   return (
     <Layout>
+      {post && (
+        <SEO
+          title={`${post.title} — NRH Blog`}
+          description={post.excerpt || `${post.title} — article by NTWARI Roger Haverson.`}
+          path={`/blog/${post.slug}`}
+          type="article"
+          image={post.cover_image || undefined}
+          jsonLd={{
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: post.title,
+            datePublished: post.published_at,
+            author: { "@type": "Person", name: "NTWARI Roger Haverson" },
+            image: post.cover_image || undefined,
+          }}
+        />
+      )}
       <article className="py-16 container mx-auto px-4 max-w-3xl">
         <Button asChild variant="ghost" size="sm" className="mb-6 -ml-3">
           <Link to="/blog"><ArrowLeft className="h-4 w-4 mr-1" /> All posts</Link>
         </Button>
+
 
         {loading ? (
           <p className="text-muted-foreground">Loading…</p>

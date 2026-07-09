@@ -5,10 +5,16 @@ import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/Layout";
 import { Testimonials } from "@/components/Testimonials";
 import { CVDownload } from "@/components/CVDownload";
+import { SEO } from "@/components/SEO";
 
 const Index = () => {
   return (
     <Layout>
+      <SEO
+        title="NTWARI Roger Haverson — Networking Engineer & Data Analyst"
+        description="Portfolio of NTWARI Roger Haverson — networking engineer and data analyst building robust network infrastructure and turning data into insight."
+        path="/"
+      />
       {/* Hero */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         {/* Background effects */}
@@ -37,6 +43,9 @@ const Index = () => {
             >
               Hi, I'm{" "}
               <span className="text-gradient">NTWARI Roger Haverson</span>
+              <span className="block text-2xl md:text-3xl lg:text-4xl font-semibold text-muted-foreground mt-3">
+                Networking Engineer & Data Analyst
+              </span>
             </motion.h1>
 
             <motion.p
