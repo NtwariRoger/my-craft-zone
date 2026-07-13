@@ -91,17 +91,22 @@ const AdminLayout = () => {
             </Link>
           ))}
         </nav>
-        <div className="p-3 border-t border-border">
-          <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground" onClick={logout}>
-            <LogOut className="h-4 w-4" /> Logout
+        <div className="p-3 border-t border-border space-y-2">
+          {user?.email && (
+            <div className="px-3 py-2 text-xs text-muted-foreground truncate" title={user.email}>
+              Signed in as <span className="text-foreground">{user.email}</span>
+            </div>
+          )}
+          <Button variant="outline" className="w-full justify-start gap-2" onClick={handleLogout}>
+            <LogOut className="h-4 w-4" /> Sign out
           </Button>
         </div>
       </aside>
 
       <div className="md:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-card border-b border-border flex items-center justify-between px-4">
         <Link to="/" className="text-lg font-bold text-gradient">NRH</Link>
-        <Button variant="ghost" size="sm" onClick={logout}>
-          <LogOut className="h-4 w-4" />
+        <Button variant="outline" size="sm" onClick={handleLogout} className="gap-1">
+          <LogOut className="h-4 w-4" /> Sign out
         </Button>
       </div>
 
