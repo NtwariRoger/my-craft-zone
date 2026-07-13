@@ -1,9 +1,10 @@
-import { Link, useLocation, Outlet, Navigate } from "react-router-dom";
+import { Link, useLocation, Outlet, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import {
   LayoutDashboard, User, Wrench, FolderOpen, Image, MessageSquare, LogOut, ShieldAlert,
-  FileText, Star, Award, Briefcase, BarChart3,
+  FileText, Star, Award, Briefcase, BarChart3, LogIn,
 } from "lucide-react";
 
 const sidebarLinks = [
