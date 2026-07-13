@@ -22,13 +22,36 @@ const sidebarLinks = [
 ];
 
 const AdminLayout = () => {
-  const { isAuthenticated, isAdmin, loading, logout } = useAuth();
+  const { isAuthenticated, isAdmin, loading, logout, user } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    await logout();
+    toast({ title: "Signed out", description: "You have been logged out of admin." });
+    navigate("/admin/login");
+  };
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading…</div>;
   }
-  if (!isAuthenticated) return <Navigate to="/admin/login" replace />;
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="glass rounded-xl p-8 max-w-md text-center">
+          <ShieldAlert className="h-10 w-10 text-primary mx-auto mb-3" />
+          <h2 className="text-lg font-bold mb-2">Admin sign in required</h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            Please sign in with your admin account to access this area.
+          </p>
+          <Button onClick={() => navigate("/admin/login")} className="gap-2">
+            <LogIn className="h-4 w-4" /> Go to sign in
+          </Button>
+        </div>
+      </div>
+    );
+  }
   if (!isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
@@ -38,7 +61,9 @@ const AdminLayout = () => {
           <p className="text-sm text-muted-foreground mb-4">
             Your account does not have admin access.
           </p>
-          <Button variant="outline" onClick={logout}>Sign out</Button>
+          <Button variant="outline" onClick={handleLogout} className="gap-2">
+            <LogOut className="h-4 w-4" /> Sign out
+          </Button>
         </div>
       </div>
     );
