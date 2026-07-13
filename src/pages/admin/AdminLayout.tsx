@@ -1,9 +1,10 @@
-import { Link, useLocation, Outlet, Navigate } from "react-router-dom";
+import { Link, useLocation, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import {
   LayoutDashboard, User, Wrench, FolderOpen, Image, MessageSquare, LogOut, ShieldAlert,
-  FileText, Star, Award, Briefcase, BarChart3,
+  FileText, Star, Award, Briefcase, BarChart3, LogIn,
 } from "lucide-react";
 
 const sidebarLinks = [
@@ -21,13 +22,36 @@ const sidebarLinks = [
 ];
 
 const AdminLayout = () => {
-  const { isAuthenticated, isAdmin, loading, logout } = useAuth();
+  const { isAuthenticated, isAdmin, loading, logout, user } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    await logout();
+    toast({ title: "Signed out", description: "You have been logged out of admin." });
+    navigate("/admin/login");
+  };
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading…</div>;
   }
-  if (!isAuthenticated) return <Navigate to="/admin/login" replace />;
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="glass rounded-xl p-8 max-w-md text-center">
+          <ShieldAlert className="h-10 w-10 text-primary mx-auto mb-3" />
+          <h2 className="text-lg font-bold mb-2">Admin sign in required</h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            Please sign in with your admin account to access this area.
+          </p>
+          <Button onClick={() => navigate("/admin/login")} className="gap-2">
+            <LogIn className="h-4 w-4" /> Go to sign in
+          </Button>
+        </div>
+      </div>
+    );
+  }
   if (!isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
@@ -37,7 +61,9 @@ const AdminLayout = () => {
           <p className="text-sm text-muted-foreground mb-4">
             Your account does not have admin access.
           </p>
-          <Button variant="outline" onClick={logout}>Sign out</Button>
+          <Button variant="outline" onClick={handleLogout} className="gap-2">
+            <LogOut className="h-4 w-4" /> Sign out
+          </Button>
         </div>
       </div>
     );
@@ -65,17 +91,22 @@ const AdminLayout = () => {
             </Link>
           ))}
         </nav>
-        <div className="p-3 border-t border-border">
-          <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground" onClick={logout}>
-            <LogOut className="h-4 w-4" /> Logout
+        <div className="p-3 border-t border-border space-y-2">
+          {user?.email && (
+            <div className="px-3 py-2 text-xs text-muted-foreground truncate" title={user.email}>
+              Signed in as <span className="text-foreground">{user.email}</span>
+            </div>
+          )}
+          <Button variant="outline" className="w-full justify-start gap-2" onClick={handleLogout}>
+            <LogOut className="h-4 w-4" /> Sign out
           </Button>
         </div>
       </aside>
 
       <div className="md:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-card border-b border-border flex items-center justify-between px-4">
         <Link to="/" className="text-lg font-bold text-gradient">NRH</Link>
-        <Button variant="ghost" size="sm" onClick={logout}>
-          <LogOut className="h-4 w-4" />
+        <Button variant="outline" size="sm" onClick={handleLogout} className="gap-1">
+          <LogOut className="h-4 w-4" /> Sign out
         </Button>
       </div>
 
