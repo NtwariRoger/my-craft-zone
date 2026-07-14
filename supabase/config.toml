@@ -2,3 +2,6 @@ project_id = "erfzffqkylylvossnaxe"
 
 [functions.get-cv-url]
 verify_jwt = false
+
+[functions.log-pageview]
+verify_jwt = false
